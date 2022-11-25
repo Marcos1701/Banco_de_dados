@@ -1,0 +1,5 @@
+CREATE TABLE Hospede (
+cod_hosp varchar(20) primary key not null,
+nome varchar(50) not null,
+DT_nasc date not null
+);
