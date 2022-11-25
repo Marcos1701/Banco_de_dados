@@ -38,3 +38,13 @@ insert into categoria values(1,'luxo',250.70);
 insert into categoria values(2,'premium',180.50);
 insert into categoria values(3,'standart',130);
 insert into categoria values(4,'Economico',70);
+
+update categoria
+set nome = 'premium',
+valor_dia = 180.50
+where cod_cat = 3;
+
+insert into categoria values(1,'luxo',250.70);
+insert into categoria values(2,'standart',150);
+insert into categoria values(3,'premium',,180.50);
+insert into categoria values(4,'Economico',70);
