@@ -1,0 +1,41 @@
+﻿CREATE TABLE Hospede (
+cod_hosp int primary key not null,
+nome varchar(50) not null,
+DT_nasc date not null
+);
+
+CREATE TABLE Categoria(
+cod_cat int primary key not null,
+nome varchar(50) not null,
+valor_dia float not null
+);
+
+create table Apartamento(
+num int primary key not null,
+cod_cat int references categoria(cod_cat),
+tamanho int not null
+);
+
+create table Funcionario(
+cod_func int primary key not null,
+nome varchar(50) not null,
+DT_nasc date not null
+);
+
+
+create table Hospedagem(
+cod_hospeda int primary key not null,
+num int references Apartamento(num) not null,
+cod_hosp int references Hospede(cod_hosp) not null,
+cod_func int references Funcionario(cod_func) not null,
+DT_ent date not null,
+DT_sai date not null
+);
+
+
+select * from categoria;
+
+insert into categoria values(1,'luxo',250.70);
+insert into categoria values(2,'standart',150);
+insert into categoria values(3,'premium',,180.50);
+insert into categoria values(4,'Economico',70);
