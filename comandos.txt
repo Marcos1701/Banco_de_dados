@@ -32,4 +32,9 @@ DT_ent date not null,
 DT_sai date not null
 );
 
-insert into categoria values(1,'luxo',450.70)
+
+select * from categoria;
+insert into categoria values(1,'luxo',250.70);
+insert into categoria values(2,'premium',180.50);
+insert into categoria values(3,'standart',130);
+insert into categoria values(4,'Economico',70);
