@@ -31,3 +31,5 @@ cod_func int references Funcionario(cod_func) not null,
 DT_ent date not null,
 DT_sai date not null
 );
+
+insert into categoria values(1,'luxo',450.70)
