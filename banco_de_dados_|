@@ -33,9 +33,38 @@ DT_sai date
 );
 
 
-select * from categoria;
-
 insert into categoria values(1,'luxo',250.70);
 insert into categoria values(2,'standart',150);
-insert into categoria values(3,'premium',,180.50);
+insert into categoria values(3,'premium',180.50);
 insert into categoria values(4,'Economico',70);
+
+SELECT * FROM CATEGORIA;
+
+insert into apartamento values(110,1,20);
+insert into apartamento values(114,3,15);
+insert into apartamento values(118,2,12);
+insert into apartamento values(121,4,8);
+
+select * from apartamento;
+
+insert into funcionario values(1,'João', '1996-12-05');
+insert into funcionario values(2,'Carlão', '1990-02-15');
+insert into funcionario values(5,'Brendo','1999-10-02');
+insert into funcionario values(3,'Ricardo', '2000-08-04');
+
+select * from funcionario;
+
+insert into hospede values(1,'José Alberto da Silva', '1990-12-01');
+insert into hospede values(2,'Maria Eduarda', '1995-10-11');
+insert into hospede values(3,'Marcos Eduardo', '2004-12-02');
+insert into hospede values(4,'Ricardão da 09', '1992-03-21');
+
+select * from Hospede;
+
+insert into hospedagem values(1,110,1,1,'2022-11-27',null);
+insert into hospedagem values(2,114,3,2,'2022-11-25',null);
+insert into hospedagem values(3,118,2,5,'2022-11-22',null);
+insert into hospedagem values(4,121,4,3,'2022-11-24',null);
+
+select * from hospedagem;
+
