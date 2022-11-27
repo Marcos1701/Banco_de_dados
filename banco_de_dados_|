@@ -29,7 +29,7 @@ num int references Apartamento(num) not null,
 cod_hosp int references Hospede(cod_hosp) not null,
 cod_func int references Funcionario(cod_func) not null,
 DT_ent date not null,
-DT_sai date not null
+DT_sai date
 );
 
 
