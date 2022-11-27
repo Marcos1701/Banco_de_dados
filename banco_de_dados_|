@@ -68,3 +68,8 @@ insert into hospedagem values(4,121,4,3,'2022-11-24',null);
 
 select * from hospedagem;
 
+--------------- teste consulta -----------------
+
+select * from hospedagem
+where dt_ent >= '2022-11-25';
+
