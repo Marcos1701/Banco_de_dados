@@ -73,3 +73,7 @@ select * from hospedagem;
 select * from hospedagem
 where dt_ent >= '2022-11-25';
 
+select * from hospedagem join hospede 
+on hospedagem.cod_hosp = hospede.cod_hosp
+where hospede.nome = 'Marcos Eduardo' or 
+hospede.nome = 'Ricardão da 09';
