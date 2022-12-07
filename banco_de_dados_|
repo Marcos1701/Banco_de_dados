@@ -77,3 +77,26 @@ select * from hospedagem join hospede
 on hospedagem.cod_hosp = hospede.cod_hosp
 where hospede.nome = 'Marcos Eduardo' or 
 hospede.nome = 'Ricardão da 09';
+
+select * from hospede where cod_hosp in (1, 3, 6); // in (valores) funciona como um or/ou consecutivo, onde os
+//valores
+select * from hospede where dt_nasc between '1990-12-20' AND '2001-12-20';
+
+select * from hospede where nome like (ou ilike para buscar sem ligar se as letras estão maiusculas ou minusculas) 'Maria'; //buscar igualdade.. 
+% = todos os caracteres, _ = qualquer coisa , (colocando antes ou depois da busca)
+
+select * from hospede where nome like 'Maria';
+select * from apartamento;
+select * from categoria;
+select * from apartamento where cod_cat = 
+(select cod_cat from categoria where nome = 'luxo');
+
+select cod_hospeda from hospedagem where num in (select num from apartamento where cod_cat in(
+select cod_cat from categoria where nome = 'luxo'));
+
+select * from hospedagem where num in (select num from apartamento where cod_cat in(
+select cod_cat from categoria where nome = 'luxo')) or cod_hosp = 3;
+
+select max(tamanho) from  apartamento;
+select min(tamanho) from  apartamento;
+select count(cod_hosp) from  hospede;
