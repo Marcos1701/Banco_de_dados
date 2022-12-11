@@ -71,5 +71,5 @@ insert into autor_livro values(3,2);
 insert into autor_livro values(2,2);
  
 
-
-
+1) select * from livro where preco > 50;
+2)
