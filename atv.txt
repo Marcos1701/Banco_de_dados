@@ -37,3 +37,34 @@ cod_autor int references autor(cod_autor) not null,
 cod_livro int references livro(cod_livro) not null,
 	primary key(cod_autor, cod_livro)
 );
+
+
+insert into assunto values(1, 'Sei lá oq é isso kk');
+insert into assunto values(2, 'Eae, tudo blz?');
+insert into assunto values(3, 'teste');
+insert into assunto values(4, 'kkkkk nada');
+
+insert into nacionalidade values(1, 'Brasilero');
+insert into nacionalidade values(2, 'Estadunidense');
+insert into nacionalidade values(3, 'Alemão');
+
+insert into editora values(1, 'teste1', 'Saraiva');
+insert into editora values(2, 'teste2', 'Americana');
+insert into editora values(3, 'teste3', 'Panimi');
+insert into editora values(4, 'teste4', 'Sei lá');
+
+insert into autor values(1, '1234', 'Marcelo', '2000-10-03', 1);
+insert into autor values(2, '4321', 'Mariano', '1993-11-23', 1);
+insert into autor values(1, '1234', 'Joseph A.', '1999-05-08', 2);
+insert into autor values(1, '1234', 'Strogonof S.', '1992-01-26', 3);
+
+insert into livro values(1,'teste1', 'Sei lá', 70,99,'2021-12-11',2,3);
+insert into livro values(2,'teste2', 'Sei lá2', 50,89,'2022-02-01',1,4);
+insert into livro values(3,'teste3', 'Sei lá3', 80,10,'2019-06-16',3,1);
+insert into livro values(4,'teste4', 'Sei lá4', 40,99,'2020-12-06',4,2);
+insert into livro values(5,'teste5', 'Sei lá5', 100,99,'2022-10-21',2,1);
+
+insert into autor_livro 
+
+
+
