@@ -1,0 +1,39 @@
+create table ASSUNTO (
+cod_assun int not null primary key,
+descricao varchar(100) not null
+);
+
+create table EDITORA (
+cod_editora int not null primary key,
+CNPJ varchar(14) not null,
+razaoSocial varchar(100) not null
+);
+
+create table NACIONALIDADE (
+cod_naciona int not null primary key,
+descricao varchar(100) not null
+);
+
+create table AUTOR (	
+cod_autor int  not null primary key,
+CPF varchar(11) not null,
+nome varchar(100) not null,
+dt_Nasc date not null,
+cod_nacional int references nacionalidade(cod_nacional) not null
+);
+
+create table LIVRO (
+cod_livro int not null primary key,
+ISBN varchar(13) not null,
+titulo varchar(50) not null,
+preco float not null,
+dataLancamento date not null,
+cod_assun int references assunto(cod_assun) not null,
+cod_editora int references editora(cod_editora) not null
+);
+
+create table AUTOR_LIVRO (
+cod_autor int references autor(cod_autor) not null,
+cod_livro int references livro(cod_livro) not null,
+primary key(cod_autor, cod_livro)
+);
