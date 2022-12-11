@@ -76,4 +76,5 @@ insert into autor_livro values(3,6);
 
 1) select * from livro where preco > 50;
 2)select * from livro where preco > 100 and preco < 200;
-3)
+3)select * from livro where titulo ilike '%banco%';
+4)
