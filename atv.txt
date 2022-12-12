@@ -113,3 +113,5 @@ insert into autor_livro values(3,6);
 25)select dt_nasc from autor where dt_nasc in (select min(dt_nasc) from autor);
 26)select dt_nasc from autor where dt_nasc in (select max(dt_nasc) from autor);
 27)select preco + preco * 0.1 as novo_preco from livro;
+Ou 
+update livro set preco = preco + preco * 0.10;
