@@ -64,6 +64,10 @@ insert into livro values(3,'teste3', 'Sei lá3', 80.10,'2019-06-16',3,1);
 insert into livro values(4,'teste4', 'Sei lá4', 40.99,'2020-12-06',4,2);
 insert into livro values(5,'teste5', 'Sei lá5', 100.99,'2022-10-21',2,1);
 insert into livro values(6,'sei la', 'Um Banco qualquer', 70.99,'2021-12-11',2,3);
+insert into livro values(7,'sei la', 'Banco qualquer', 70.99,'2021-12-11',3,1);
+insert into livro values(8,'sei la', 'Banco qualquer com certos dados', 70.99,'2021-11-11',4,1);
+insert into livro values(7,'sei la', 'Banco de dados qualquer ', 70.99,'2010-10-25',1,1);
+insert into livro values(7,'sei la', 'Bancos de dados qualquer com certos dados', 70.99,'2010-06-25',3,2);
 
 
 insert into autor_livro values(1,3);
@@ -72,9 +76,40 @@ insert into autor_livro values(4,4);
 insert into autor_livro values(3,2);
 insert into autor_livro values(2,2);
 insert into autor_livro values(3,6);
+
  
 
 1) select * from livro where preco > 50;
 2)select * from livro where preco > 100 and preco < 200;
 3)select * from livro where titulo ilike '%banco%';
-4)
+4)select * from livro where titulo ilike 'banco%';
+5)select * from livro where titulo ilike '%dados';
+6)select * from livro where titulo ilike '%banco de dados%' or titulo ilike 'bancos de dados%';
+7)select * from livro where datalancamento < '2017-11-12';
+8)select * from livro where datalancamento is null;
+9)select * from livro where cod_assun = (
+	select cod_assun from assunto where descricao ilike 'estrutura de dados'
+);
+
+10)select * from livro where cod_assun in (1,2,3);
+11)select count(cod_livro) from livro;
+12)select count(cod_livro) from livro where datalancamento is null;
+13)select sum(preco) from livro;
+14)select avg(preco) from livro;
+15)select max(preco) from livro;
+16)select min(preco) from livro;
+17) não precisa
+18) não precisa
+19)select nome,cpf from autor where nome like '%João%';
+20)select nome,cpf from autor where dt_nasc > '1997-01-01';
+
+21)select nome,cpf from autor where cod_nacional in (
+   select cod_nacional from nacionalidade where descricao != 'brasileiro'
+);
+
+22) select count(cod_autor) from autor;
+23)select max(preco), min(preco), avg(preco) from livro where cod_assun in (1,2,3);
+24)select count(cod_autor) from autor where dt_nasc < '1920-01-01';
+25)select dt_nasc from autor where dt_nasc in (select min(dt_nasc) from autor);
+26)select dt_nasc from autor where dt_nasc in (select max(dt_nasc) from autor);
+27)select preco + preco * 0.1 as novo_preco from livro;
