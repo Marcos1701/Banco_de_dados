@@ -105,7 +105,8 @@ VALUES
 
     (2, 'Luxo', 300.00), 
 
-    (3, 'Premium', 500.00);
+    (3, 'Premium', 500.00),
+    (4, 'simples', 50.00);
 
 	
 
@@ -117,7 +118,8 @@ VALUES
 
     (102, 'L', 1), 
 
-    (103, 'O', 2);
+    (103, 'O', 2),
+    (106, 'O', 4);
 
 	
 
@@ -141,8 +143,8 @@ VALUES
 
     (2, 2, 103, '2022-03-10', NULL), 
 
-    (3, 3, 102, '2022-03-15', '2022-03-20');
-
+    (3, 3, 102, '2022-03-15', '2022-03-20'),
+    (4, 1, 106, '2022-02-24', '2022-03-01');
 	
 
 INSERT INTO SERVICO (COD_SERV, NOME, VALOR) 
@@ -166,3 +168,28 @@ VALUES
     (2, 2, 3, '2022-03-11', 1), 
 
     (3, 3, 2, '2022-03-17', 3);
+ 
+
+    
+
+
+select num from apartamento where cod_cat in (select cod_cat from categoria where nome ilike 'luxo');
+
+select num numero from apartamento a,categoria c where a.cod_cat = c.cod_cat and nome ilike 'luxo'
+
+1)Obter o nome dos hospedes que se hospedaram em apartamentos da categoria luxo
+
+select h1.nome from hospede h1,hospedagem h2, apartamento a, categoria c where 
+   h1.cod_hosp = h2.cod_hosp and h2.num = a.num and a.cod_cat = c.cod_cat and c.nome ilike 'luxo';
+
+select num from apartamento ap join categoria c on ap.cod_cat = c.cod_cat where nome ilike 'luxo'
+
+2)Obter o nome dos hospedes que se hospedaram em apartamentos da categoria luxo ou simples
+
+select h1.nome from hospede h1,hospedagem h2, apartamento a, categoria c where 
+   h1.cod_hosp = h2.cod_hosp and h2.num = a.num and a.cod_cat = c.cod_cat and (c.nome ilike 'luxo' or c.nome ilike 'simples');
+
+select h1.nome from hospede h1 join hospedagem h2 on h1.cod_hosp = h2.cod_hosp join apartamento a on h2.num = a.num join categoria c 
+on a.cod_cat = c.cod_cat where nome ilike 'luxo' or nome ilike 'simples'
+
+3) 
