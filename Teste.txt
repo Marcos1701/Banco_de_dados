@@ -192,4 +192,4 @@ select h1.nome from hospede h1,hospedagem h2, apartamento a, categoria c where
 select h1.nome from hospede h1 join hospedagem h2 on h1.cod_hosp = h2.cod_hosp join apartamento a on h2.num = a.num join categoria c 
 on a.cod_cat = c.cod_cat where nome ilike 'luxo' or nome ilike 'simples'
 
-3) 
+select nome, num Número from apartamento a right join categoria c on a.cod_cat = c.cod_cat
