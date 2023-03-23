@@ -5,8 +5,8 @@ select * from categoria where nome ilike '%luxo%';
 3)
 select nome from categoria where cod_cat in (
 	select cod_cat from apartamento where num in(
-		select num from hospedagem where dt_ent < '2018-03-23'));
-
+		select num from hospedagem where extract(year from age(now(), dt_ent)) >= 5
+));
 4)
 select * from apartamento where num in(
 	select num from hospedagem where dt_sai is null);
