@@ -1,7 +1,26 @@
+create table filme(
+cod_f int not null primary key,
+nome varchar(30) not null,
+cod_g int not null references genero(cod_g)
+)
+
+create table genero(
+ cod_g int not null primary key,
+ nome_g varchar(30) not null
+);
+
+insert into genero values(1,'teste'),(2,'2teste'),(3,'3teste')
+
+insert into filme values(1,'sei la',1),(2,'2sei la',1),(3,'sei la4',2)
+
+select nome from filmes natural join genero
+group by cod_g
+having count(cod_g) > max()
+
+
 1)
 select nome, dt_nasc data_nascimento from hospede
  order by nome asc, dt_nasc desc;
- 
  
 2) 
 select nome Categoria from categoria
@@ -12,7 +31,7 @@ SELECT NUM NUMERO, VALOR_DIA DIARIA FROM APARTAMENTO NATURAL JOIN CATEGORIA
    ORDER BY VALOR_DIA DESC;
   
 4)
-SELECT NOME NOME_CATEGORIA, COUNT(NUM) QTD_APTO FROM APARTAMENTO NATURAL JOIN CATEGORIA
+SELECT NOME NOME_CATEGORIA FROM APARTAMENTO NATURAL JOIN CATEGORIA
   GROUP BY NOME HAVING COUNT(NUM) = 1;
   
 5)
