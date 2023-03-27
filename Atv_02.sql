@@ -83,15 +83,15 @@ where cod_func = 4;
  
 update hospedagem
 set cod_func = 1
- where cod_hospeda in (1,4,7)
+ where cod_hospeda in (1,4,7);
 
 update hospedagem
 set cod_func = 2
- where cod_hospeda in (2,3)
+ where cod_hospeda in (2,3);
 
 update hospedagem
 set cod_func = 3
- where cod_hospeda = 5
+ where cod_hospeda = 5;
 
 update hospedagem
 set cod_func = 4
@@ -135,7 +135,13 @@ FROM CATEGORIA cat
 LEFT JOIN APARTAMENTO ap ON cat.COD_CAT = ap.COD_CAT
 ORDER BY NOME, NUM;
 
-::text - convertenúmero do apartamento em texto, pois a função 
+SELECT COALESCE(NOME::text, 'não possui categoria') CATEGORIA, 
+       COALESCE(NUM::text, 'não possui apartamento') NUMERO_APARTAMENTO
+FROM CATEGORIA cat
+FULL JOIN APARTAMENTO ap ON cat.COD_CAT = ap.COD_CAT
+ORDER BY NOME, NUM;
+
+::text - converte número do apartamento em texto, pois a função 
 COALESCE exige que todos os argumentos tenham o mesmo tipo.
 
 coalese - recebe um valor a ser analisado e um valor_padrão, quando o valor
@@ -264,9 +270,10 @@ where not exists
   )
 
 select * from hospedagem
-order by cod_hosp
+order by cod_hospeda
 
 insert into hospedagem values
+(5,1,110,'2023-02-16', '2023-02-20'),
 (10,1,103,'2023-02-26', '2023-03-01')
 
 update hospedagem
