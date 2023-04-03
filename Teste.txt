@@ -95,6 +95,13 @@ CREATE TABLE CATEGORIA (
 
  );
 
+Create table reserva(
+  cod_res int not null primary key,
+  num int not null references apartamento(num),
+  dt_res date not null,
+  dt_prev_ent date,
+  dt_prev_sai date);
+
  
 
 INSERT INTO CATEGORIA (COD_CAT, NOME, VALOR_DIA) 
