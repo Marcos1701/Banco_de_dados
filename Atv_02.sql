@@ -288,6 +288,9 @@ where not exists
    )
   )
 
+select h.nome from hospede h natural join hospedagem h1 
+  where h1.num = all(select nun from apartamento)
+
 select * from hospedagem
 order by cod_hospeda
 
