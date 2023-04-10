@@ -1,0 +1,35 @@
+create table venda (
+ COD_venda int not null primary key,
+ Nome_vendedor varchar(35) not null,
+ data_venda date not null,
+ Valor_vendido float not null)
+ 
+ insert into venda values
+ (1,'Carlos', '2022-10-11', 100),
+ (2,'José', '2022-11-01', 350),
+ (3,'Alex', '2023-01-11', 180),
+ (4,'José', '2022-02-11', 130),
+ (5,'Carlos', '2023-04-11', 200),
+ (6,'José', '2022-12-11', 200),
+ (7,'Alex', '2023-01-11', 500)
+ (8,'Maria', '2022-10-11', 150)
+ (9,'Maria', '2022-11-11', 200)
+ 
+ update venda
+  set data_venda = '2022-03-11'
+  where COD_venda = 7
+ 
+ 2.1)
+ 
+ select Nome_vendedor nome, sum(Valor_vendido) total_Vendas from venda 
+   where extract(year from data_venda) = '2022' and extract(month from data_venda) = '03'
+ group by Nome_vendedor
+ having sum(Valor_vendido) >= 300;
+ 
+ 
+ 2.2)
+  select Nome_vendedor nome, sum(Valor_vendido) total_Vendas from venda 
+   where extract(year from data_venda) = '2022' and extract(month from data_venda) = '03'
+ group by Nome_vendedor
+ order by total_Vendas desc
+ limit 1
