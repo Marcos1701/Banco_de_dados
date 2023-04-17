@@ -62,3 +62,33 @@ create table funcionario(
 insert into funcionario values(1,'Jose',100)
 
 -- Questão 3
+
+create table empregado(
+ nome varchar not null,
+ salario int not null);
+ 
+create table empregado_audit(
+ operacao char(1) not null,
+ usuario varchar not null,
+ data timestamp not null,
+ nome varchar not null,
+ salario int not null
+ )
+
+
+create trigger t_confere_op
+ after insert or update or delete 
+ on empregado
+ for each row
+ execute procedure
+  f_confere_op();
+  
+ create or replace function f_confere_op()
+ returns trigger as $$
+  begin
+    if (tg_op = 'DELETE') then
+	  insert into empregado_audit 
+    return new;
+   end;
+   $$
+  language PLPGSQL;
