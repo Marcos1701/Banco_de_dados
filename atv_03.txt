@@ -91,7 +91,7 @@ create trigger t_confere_op
 	elsif (tg_op = 'INSERT')
 	  insert into empregado_audit select 'I', current_user, now(), new.*;
 	elsif (tg_op = 'UPDATE')
-	  nsert into empregado_audit select 'U', current_user, now(), new.*;
+	  nsert into empregado_audit select 'A', current_user, now(), new.*;
     return new;
    end;
    $$
