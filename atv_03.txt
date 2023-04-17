@@ -1,0 +1,64 @@
+-- 1° Questão
+CREATE TABLE ALUNO (
+ MATRICULA VARCHAR(15) NOT NULL PRIMARY KEY,
+ NOME VARCHAR(30)) 
+ 
+ CREATE OR REPLACE FUNCTION INICIAL_NOME_A()
+  RETURNS TRIGGER AS $CONFERE_NOME$
+  BEGIN
+   IF NEW.NOME ILIKE 'A%' THEN
+   RAISE EXCEPTION 'Alunos com nomes iniciados com "a" não são permitidos';
+   
+   END IF;
+     RETURN NEW;
+  END;
+  $CONFERE_NOME$
+  LANGUAGE PLPGSQL;
+  
+  CREATE TRIGGER NAO_PERMITE_A 
+  BEFORE INSERT OR UPDATE 
+  ON ALUNO 
+  FOR EACH ROW
+  EXECUTE PROCEDURE
+   INICIAL_NOME_A();
+   
+   
+  INSERT INTO ALUNO VALUES('121', 'José'),('122','Alex')
+  
+  select * from aluno
+
+-- 2° Questão
+drop table funcionario
+create table funcionario(
+ cod int not null primary key,
+ nome varchar(30) not null,
+ sal int not null,
+ dt_ult_at timestamp not null,
+ usuario_que_at varchar(30) not null)
+ 
+ create trigger t_inserir_valores
+ before insert 
+ on funcionario
+ for each row
+ execute procedure
+  f_inserir_valores();
+  
+ create or replace function f_inserir_valores()
+ returns trigger as $$
+  begin
+   if new.nome is null then
+     raise exception 'O nome não pode ser nulo';
+   end if;
+   if new.sal <=0 or new.sal is null then
+     raise exception '% não pode ter salario nulo ou negativo', new.nome;
+   end if; 
+     new.dt_ult_at = now();
+	 new.usuario_que_at = current_user; 
+    return new;
+   end;
+   $$
+  language PLPGSQL;
+  
+insert into funcionario values(1,'Jose',100)
+
+-- Questão 3
