@@ -88,11 +88,22 @@ create trigger t_confere_op
   begin
     if (tg_op = 'DELETE') then
 	  insert into empregado_audit select 'E', current_user, now(), old.*;
-	elsif (tg_op = 'INSERT')
+	elsif (tg_op = 'INSERT') then
 	  insert into empregado_audit select 'I', current_user, now(), new.*;
-	elsif (tg_op = 'UPDATE')
-	  nsert into empregado_audit select 'A', current_user, now(), new.*;
+	elsif (tg_op = 'UPDATE') then
+	  insert into empregado_audit select 'A', current_user, now(), new.*;
+	  end if;
     return new;
    end;
    $$
   language PLPGSQL;
+  
+  insert into empregado values
+  ('Jose',100)
+  
+  update empregado
+  set nome = 'Carlos'
+  
+  delete from empregado
+  
+  select * from empregado_audit
