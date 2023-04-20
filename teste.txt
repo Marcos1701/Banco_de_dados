@@ -1,0 +1,85 @@
+                                           +--------------+
+                                           |    Pedido    |
+                                           +--------------+
+                                           | idPedido     |
+                                           | dataPedido   |
+                                           | statusPedido |
+                                           | idCliente    |
+                                           | idFuncionario|
+                                           +--------------+
+                                                 |
+                                                 |
+                                                 |
+                                    +--------------------------+
+                                    |         ItemPedido        |
+                                    +--------------------------+
+                                    | idItemPedido             |
+                                    | quantidadeItemPedido     |
+                                    | precoItemPedido          |
+                                    | idPedido                 |
+                                    | idIngrediente            |
+                                    +--------------------------+
+                                                 |
+                                                 |
+                                                 |
+                                +------------------------------+
+                                |         Ingrediente          |
+                                +------------------------------+
+                                | idIngrediente                |
+                                | nomeIngrediente              |
+                                | quantidadeIngrediente        |
+                                | idFornecedor                |
+                                +------------------------------+
+                                                 |
+                                                 |
+                                                 |
+                                 +-----------------------+
+                                 |        Fornecedor      |
+                                 +-----------------------+
+                                 | idFornecedor          |
+                                 | nomeFornecedor        |
+                                 | telefoneFornecedor    |
+                                 | emailFornecedor       |
+                                 +-----------------------+
+                                                 |
+                                                 |
+                                                 |
+                                  +---------------------+
+                                  |         Estoque     |
+                                  +---------------------+
+                                  | idIngrediente       |
+                                  | quantidadeEstoque   |
+                                  +---------------------+
+                                                 |
+                                                 |
+                                                 |
+                                +------------------------------+
+                                |         Cliente              |
+                                +------------------------------+
+                                | idCliente                    |
+                                | nomeCliente                  |
+                                | telefoneCliente              |
+                                | emailCliente                 |
+                                +------------------------------+
+                                                 |
+                                                 |
+                                                 |
+                              +--------------------------------+
+                              |         Funcionario             |
+                              +--------------------------------+
+                              | idFuncionario                  |
+                              | nomeFuncionario                |
+                              | telefoneFuncionario            |
+                              | emailFuncionario               |
+                              +--------------------------------+
+                                                 |
+                                                 |
+                                                 |
+                               +--------------------------+
+                               |         Pagamento         |
+                               +--------------------------+
+                               | idPagamento              |
+                               | dataPagamento            |
+                               | valorPagamento           |
+                               | idPedido                 |
+                               +--------------------------+
