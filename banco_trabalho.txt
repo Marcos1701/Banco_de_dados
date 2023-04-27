@@ -1,0 +1,31 @@
+create table mesa(
+num_mesa int primary key not null);
+
+create table Garcom(
+id_g int serial primary key,
+nome varchar not null,
+telefone varchar not null,
+logradouro varchar,
+cep varchar);
+
+create table metodo_pag(
+id_mp int primary key serial,
+nome varchar not null,
+descricao varchar);
+
+create table pedido(
+id_p int serial primary key,
+id_g int references Garcom(id_g) not null,
+num int references mesa(num_mesa) not null,
+data date not null,
+id_mp references metodo_pag(id_mp) not null
+);
+
+create table itempedido(
+id_ipe int serial primary key,
+id_item int references item(id_item) not null,
+id_pe int references pedido(id_p) not null,
+num int references mesa(num_mesa) not null,
+data date not null,
+id_mp references metodo_pag(id_mp) not null
+);
