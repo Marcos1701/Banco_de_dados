@@ -107,3 +107,109 @@ create trigger t_confere_op
   delete from empregado
   
   select * from empregado_audit
+-- v2
+
+create or replace function confere_nome()
+  returns trigger as $$
+  begin
+  if (new.nome ilike 'a%') then
+  raise exception 'Ops, nomes iniciados com "a" não são permitidos';
+  
+  end if;
+  
+  end;
+  
+  $$ language plpgsql;
+  
+create or replace trigger t_confere_nome
+before insert or update on aluno
+for each row
+execute procedure confere_nome();
+
+insert into aluno values('1', 'José')
+
+select * from aluno
+
+create or replace function fconfere_valores_valido()
+returns trigger as $$
+begin
+if (new.nome is NULL) then
+ raise exception 'Nomes nulos não são permitidos!!';
+elsif new.sal is null then
+ raise exception 'O salário não pode ser nulo!!';
+elsif new.sal < 0 then
+ raise exception 'O salário não pode ser negativo!!';
+else
+new.dt_ult_at = now();
+ new.usuario_que_at = current_user;
+end if;
+return new;
+end;
+$$ language plpgsql;
+
+create trigger tconfere_valores_valido
+before insert or update on funcionario
+for each row 
+execute procedure fconfere_valores_valido();
+  
+ create or replace function f_gera_auditoria()
+ returns trigger as $$
+  begin
+    if (tg_op = 'DELETE') then
+	  insert into empregado_audit select 'E', current_user, now(), old.*;
+	elsif (tg_op = 'INSERT') then
+	  insert into empregado_audit select 'I', current_user, now(), new.*;
+	elsif (tg_op = 'UPDATE') then
+	  insert into empregado_audit select 'A', current_user, now(), new.*;
+	  end if;
+    return new;
+   end;
+   $$
+  language PLPGSQL;
+  
+  create trigger t_gera_auditoria
+ after insert or update or delete 
+ on empregado
+ for each row
+ execute procedure
+  f_gera_auditoria();
+  
+
+create table empregados_2(
+id serial primary key ,
+nome varchar not null,
+salario integer
+)
+
+create or replace table empregados_2_audit(
+usuario varchar,
+data timestamp,
+id integer,
+coluna text,
+valor_antigo text,
+valor_novo text
+)
+
+create or replace function f_gera_audit2()
+returns trigger as $$
+begin
+
+if new.id <> old.id then
+raise exception 'O id não pode ser alterado!!';
+end if;
+  if (new.nome <> old.nome and new.nome is not null) then
+    insert into empregados_2_audit values(current_user,now,old.id,old.nome,new.nome);
+end if;
+   if (new.salario <> old.salario and new.salario is not null) then
+   insert into empregados_2_audit values(current_user,now,old.id,old.salario,new.salario);
+   end if;
+  end;
+      $$
+  language PLPGSQL;
+  
+  create or replace trigger t_gera_audit2
+  before update on empregados_2
+  for each row
+  execute procedure f_gera_audit2();
+  
+  
