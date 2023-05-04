@@ -67,7 +67,7 @@ e quantidade vendida.*/
 create or replace function realiza_pedido(int, int, varchar, int)
 returns text as $$
  declare
- cod_cli int := (select cod_cli from cliente where NOME_CLI = $3);
+ cod_cli int := (select cod_cli from cliente where NOME_CLI ilike $3);
  valor_uni_livro real := (select VALOR_UNITARIO from livro where COD_LIVRO = $2);
  qtd_estoque int := (select QUANT_ESTOQUE from livro where COD_LIVRO = $2);
  begin
@@ -94,7 +94,7 @@ select realiza_pedido(4,2,'CLIENTE',10);
 create or replace function realiza_pedido(cod_ped int,cod_li int,nome_c varchar,qtd int)
 returns text as $$
  declare
- cod_cli int := (select cod_cli from cliente where NOME_CLI = nome_c);
+ cod_cli int := (select cod_cli from cliente where NOME_CLI ilike nome_c);
  valor_uni_livro real := (select VALOR_UNITARIO from livro where COD_LIVRO = cod_li);
  qtd_estoque int := (select QUANT_ESTOQUE from livro where COD_LIVRO = cod_li);
  begin
@@ -128,7 +128,7 @@ returns text as $$
  qtd_estoque int;
  begin
  
- cod_cli := (select cod_cli from cliente where NOME_CLI = nome_c);
+ cod_cli := (select cod_cli from cliente where NOME_CLI ilike nome_c);
  valor_uni_livro := (select VALOR_UNITARIO from livro where COD_LIVRO = cod_li);
  qtd_estoque := (select QUANT_ESTOQUE from livro where COD_LIVRO = cod_li);
  
