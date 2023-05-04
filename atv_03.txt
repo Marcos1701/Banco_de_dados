@@ -90,3 +90,32 @@ $$
 language PLPGSQL;
 
 select realiza_pedido(4,2,'CLIENTE',10);
+
+create or replace function realiza_pedido(cod_ped int,cod_li int,nome_c varchar,qtd int)
+returns text as $$
+ declare
+ cod_cli int := (select cod_cli from cliente where NOME_CLI = nome_c);
+ valor_uni_livro real := (select VALOR_UNITARIO from livro where COD_LIVRO = cod_li);
+ qtd_estoque int := (select QUANT_ESTOQUE from livro where COD_LIVRO = cod_li);
+ begin
+ 
+ if(qtd_estoque < qtd) then
+ return 'Ops, a quantidade solicitada é superior á quantidade em estoque.. ';
+ end if;
+ 
+ insert into pedido values($1,cod_cli,current_date,valor_uni_livro*$4,$4);
+ insert into ITEM_PEDIDO values($2,$1,$4,valor_uni_livro*$4);
+ 
+ update livro
+ set QUANT_ESTOQUE = QUANT_ESTOQUE - qtd
+ where COD_LIVRO = cod_li;
+
+if qtd = 1 then
+return 'A venda do exemplar do livro, de codigo ' || cod_li || ', ocorreu com sucesso!!';
+else
+return 'A venda de ' || qtd || ' exemplares do livro, de codigo ' || cod_li || ', ocorreu com sucesso!!';
+end if;
+end;
+$$
+
+language PLPGSQL;
