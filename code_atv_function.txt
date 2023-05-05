@@ -56,13 +56,14 @@ INSERT INTO ITEM_PEDIDO VALUES(3, 3, 3, 90);
 
 
 
-/*Crie uma função que realiza o pedido de um único livro que possui 
-estoque suficiente. O ato de realizar pedido consiste em inserir 
-registros nas tabelas Pedido e Item_pedido, além de decrementar a 
-quantidade em estoque. Essa funcão deve receber apenas os seguintes
-parâmetros: Código do pedido, código do livro, nome do CLIENTE 
-(imagine que não existam dois CLIENTES com o mesmo nome) 
-e quantidade vendida.*/
+
+--------------------------EXERCÍCIO 1-----------------------------------------
+/*Crie uma função que realiza o pedido de um único livro que possui estoque suficiente. 
+O ato de realizar pedido consiste em inserir registros nas tabelas Pedido e Item_pedido, 
+além de decrementar a quantidade em estoque. Essa funcão deve receber apenas os seguintes
+parâmetros: 
+Código do pedido, código do livro, nome do CLIENTE (imagine que não 
+existam dois CLIENTES com o mesmo nome) e quantidade vendida.*/
 
 create or replace function realiza_pedido(int, int, varchar, int)
 returns text as $$
@@ -152,3 +153,64 @@ end;
 $$
 
 language PLPGSQL;
+
+
+
+--------------------------EXERCÍCIO 2-----------------------------------------
+/*Crie uma função que realiza o pedido como deve ser. Inserções nas tabelas PEdido e 
+Item_pedido, além
+da atualização da quantidade em estoque. 
+No primeiro produto, deve haver inserções nas duas tabelas.
+A partir do segundo, apenas na tebela Item_pedido. 
+Não esqueça de decrementar a quantidade em estoque, 
+de atualizar o valor total do pedido e a quantidade de itens da tabela pedido.
+Os parâmetros passados para a função são os mesmos da questão anterior.*/
+
+
+
+create or replace function realiza_pedido(cod_ped int,cod_li int,nome_c varchar,qtd int)
+returns text as $$
+ declare
+ cod_c int;
+ valor_uni_livro real;
+ qtd_estoque int;
+ begin
+ cod_c := (select cod_cli from cliente where NOME_CLI ilike nome_c);
+ if cod_c is null then
+  raise exception 'Ops, o cliente inserido não foi encontrado..';
+  end if;
+ valor_uni_livro := (select VALOR_UNITARIO from livro where COD_LIVRO = cod_li);
+ if valor_uni_livro is null then
+  raise exception 'Ops, o codigo do livro inserido não foi encontrado!!';
+  end if;
+ qtd_estoque := (select QUANT_ESTOQUE from livro where COD_LIVRO = cod_li);
+ 
+ if(qtd_estoque < qtd) then
+ return 'Ops, a quantidade solicitada é superior á quantidade em estoque.. ';
+ end if;
+ 
+ if (cod_ped in (select COD_PEDIDO from pedido)) then
+ 	update pedido
+	set VALOR_TOTAL_PEDIDO = VALOR_TOTAL_PEDIDO + (valor_uni_livro*qtd)
+	where COD_PEDIDO = cod_ped;
+ else
+    insert into pedido values(cod_ped,cod_c,current_date,valor_uni_livro*qtd,qtd);
+end if;
+ insert into ITEM_PEDIDO values(cod_li,cod_ped,qtd,valor_uni_livro*qtd);
+ 
+ update livro
+ set QUANT_ESTOQUE = QUANT_ESTOQUE - qtd
+ where COD_LIVRO = cod_li;
+
+if qtd = 1 then
+return 'A venda do exemplar do livro, de codigo ' || cod_li || ', ocorreu com sucesso!!';
+else
+return 'A venda de ' || qtd || ' exemplares do livro, de codigo ' || cod_li || ', ocorreu com sucesso!!';
+end if;
+end;
+$$
+language PLPGSQL;
+
+select * from pedido
+select * from ITEM_PEDIDO
+select realiza_pedido(4,2,'cliente',2);
