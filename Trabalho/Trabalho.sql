@@ -1,0 +1,126 @@
+CREATE TABLE MESA (
+  MESA_ID INT PRIMARY KEY,
+  CAPACIDADE INT
+);
+
+CREATE TABLE ATENDENTE (
+  ATENDENTE_ID INT PRIMARY KEY,
+  NOME VARCHAR(50)
+);
+
+CREATE TABLE PEDIDO (
+  PEDIDO_ID INT PRIMARY KEY,
+  MESA_ID INT,
+  ATENDENTE_ID INT,
+  DATA_HORA TIMESTAMP DEFAULT NOW(),
+  FOREIGN KEY (MESA_ID) REFERENCES MESA(MESA_ID),
+  FOREIGN KEY (ATENDENTE_ID) REFERENCES ATENDENTE(ATENDENTE_ID)
+);
+
+CREATE TABLE CATEGORIA (
+  CATEGORIA_ID INT PRIMARY KEY,
+  NOME VARCHAR(50)
+);
+
+CREATE TABLE PRODUTO (
+  PRODUTO_ID INT PRIMARY KEY,
+  NOME VARCHAR(50),
+  DESCRICAO VARCHAR(200),
+  CATEGORIA_ID INT,
+  PRECO REAL,
+  QUANTIDADE INT,
+  STATUS CHAR(1) --V - VENDÁVEL, N - NÃO VENDÁVEL,
+  FOREIGN KEY (CATEGORIA_ID) REFERENCES CATEGORIA(CATEGORIA_ID)
+);
+
+CREATE TABLE INGREDIENTE (
+  INGREDIENTE_ID INT PRIMARY KEY,
+  NOME VARCHAR(50),
+  PRODUTO_ID INT,
+  FOREIGN KEY (PRODUTO_ID) REFERENCES PRODUTO(PRODUTO_ID)
+);
+
+CREATE TABLE ITEM_COMPRA (
+  ITEM_COMPRA_ID INT PRIMARY KEY,
+  COMPRA_ID INT,
+  PRODUTO_ID INT,
+  QUANTIDADE INT,
+  FOREIGN KEY (COMPRA_ID) REFERENCES COMPRA(COMPRA_ID),
+  FOREIGN KEY (PRODUTO_ID) REFERENCES PRODUTO(PRODUTO_ID)
+);
+
+CREATE TABLE COMPRA (
+  COMPRA_ID INT PRIMARY KEY,
+  FORNECEDOR_ID INT,
+  VALOR_TOTAL REAL,
+  DATA_HORA TIMESTAMP DEFAULT NOW(),
+  FOREIGN KEY (FORNECEDOR_ID) REFERENCES FORNECEDOR(FORNECEDOR_ID)
+);
+
+CREATE TABLE FORNECEDOR (
+  FORNECEDOR_ID INT PRIMARY KEY,
+  NOME VARCHAR(100) not null,
+  contato varchar(100) not null,
+  rua varchar(70) not null,
+  numero varchar(10) not null,
+  bairro varchar(40) not null,
+  cidade varchar(30) not null,
+  estado varchar(30) not null
+);
+
+CREATE TABLE COTACAO_ATUAL (
+  COTACAO_ID INT PRIMARY KEY,
+  FORNECEDOR_ID INT,
+  PRODUTO_ID INT,
+  PRECO REAL,
+  FOREIGN KEY (FORNECEDOR_ID) REFERENCES FORNECEDOR(FORNECEDOR_ID),
+  FOREIGN KEY (PRODUTO_ID) REFERENCES PRODUTO(PRODUTO_ID)
+);
+
+CREATE FUNCTION ADICIONA_VALORES(INICIAL_TABLE CHAR(3),COD INT,PARAMETRO_1 INT)
+RETURNS TEXT as $$
+BEGIN
+
+IF(INICIAL_TABLE ilike 'ATE') then
+  insert into atendente values(cod,PARAMETRO_1);
+  return 'Os valores foram inseridos com sucesso na tabela ATENDENTE';
+elsif (INICIAL_TABLE ilike 'CAT') then
+  insert into categoria values(cod, PARAMETRO_1);
+  return 'Os valores foram inseridos com sucesso na tabela CATEGORIA';
+else
+ raise exception 'Ops, nenhuma tabela foi encontrada, revise os parametros passados..';
+end if;
+END;
+$$
+LANGUAGE PLPGSQL;
+
+CREATE FUNCTION ADICIONA_VALORES(INICIAL_TABLE CHAR(3),COD INT,PARAMETRO_1 varchar)
+RETURNS TEXT as $$
+BEGIN
+
+IF(INICIAL_TABLE ilike 'MES') then
+  insert into atendente values(cod,PARAMETRO_1);
+  return 'Os valores foram inseridos com sucesso na tabela MESA';
+else
+ raise exception 'Ops, nenhuma tabela foi encontrada, revise os parametros passados..';
+end if;
+END;
+$$
+LANGUAGE PLPGSQL;
+
+CREATE FUNCTION ADICIONA_VALORES(INICIAL_TABLE CHAR(3),COD INT,PARAMETRO_1 VARCHAR(100),
+								 PARAMETRO_2 varchar(100) not null, PARAMETRO_3 varchar(70) not null, 
+								 PARAMETRO_4 varchar(10) not null, PARAMETRO_5 varchar(40) not null,
+								 PARAMETRO_6 varchar(30) not null, PARAMETRO_7 varchar(30))
+RETURNS TEXT as $$
+BEGIN
+
+IF(INICIAL_TABLE ilike 'FOR') then
+  insert into FORNECEDOR values(cod,PARAMETRO_1,  PARAMETRO_2);
+  return 'Os valores foram inseridos com sucesso na tabela FORNECEDOR';
+else
+ raise exception 'Ops, nenhuma tabela foi encontrada, revise os parametros passados..';
+end if;
+END;
+$$
+LANGUAGE PLPGSQL;
