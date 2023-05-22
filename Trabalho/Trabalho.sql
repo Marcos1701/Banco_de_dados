@@ -121,3 +121,75 @@ end if;
 END;
 $$
 LANGUAGE PLPGSQL;
+
+CREATE FUNCTION ADICIONA_VALORES(INICIAL_TABLE CHAR(3), PARAMETRO_1 VARCHAR(50),
+                                 PARAMETRO_2 VARCHAR(200), PARAMETRO_3 INT,
+                                 PARAMETRO_4 REAL, PARAMETRO_5 INT, PARAMETRO_6 CHAR(1))
+RETURNS TEXT AS $$
+BEGIN
+  IF(INICIAL_TABLE ILIKE 'PRO') THEN
+    INSERT INTO produto VALUES (DEFAULT, PARAMETRO_1, PARAMETRO_2, PARAMETRO_3, PARAMETRO_4, PARAMETRO_5, PARAMETRO_6);
+    RETURN 'Os valores foram inseridos com sucesso na tabela PRODUTO';
+  ELSE
+    RAISE EXCEPTION 'Ops, nenhuma tabela foi encontrada, revise os parâmetros passados..';
+  END IF;
+END;
+$$
+LANGUAGE PLPGSQL;
+
+CREATE FUNCTION ADICIONA_VALORES(INICIAL_TABLE CHAR(3), PARAMETRO_1 VARCHAR(50),
+                                 PARAMETRO_2 INT)
+RETURNS TEXT AS $$
+BEGIN
+  IF(INICIAL_TABLE ILIKE 'ING') THEN
+    INSERT INTO ingrediente VALUES (DEFAULT, PARAMETRO_1, PARAMETRO_2);
+    RETURN 'Os valores foram inseridos com sucesso na tabela INGREDIENTE';
+  ELSE
+    RAISE EXCEPTION 'Ops, nenhuma tabela foi encontrada, revise os parâmetros passados..';
+  END IF;
+END;
+$$
+LANGUAGE PLPGSQL;
+
+CREATE FUNCTION ADICIONA_VALORES(INICIAL_TABLE CHAR(3), PARAMETRO_1 INT,
+                                 PARAMETRO_2 INT, PARAMETRO_3 INT)
+RETURNS TEXT AS $$
+BEGIN
+  IF(INICIAL_TABLE ILIKE 'ITE') THEN
+    INSERT INTO item_compra VALUES (DEFAULT, PARAMETRO_1, PARAMETRO_2, PARAMETRO_3);
+    RETURN 'Os valores foram inseridos com sucesso na tabela ITEM_COMPRA';
+  ELSE
+    RAISE EXCEPTION 'Ops, nenhuma tabela foi encontrada, revise os parâmetros passados..';
+  END IF;
+END;
+$$
+LANGUAGE PLPGSQL;
+
+CREATE FUNCTION ADICIONA_VALORES(INICIAL_TABLE CHAR(3), PARAMETRO_1 INT,
+                                 PARAMETRO_2 REAL)
+RETURNS TEXT AS $$
+BEGIN
+  IF(INICIAL_TABLE ILIKE 'COM') THEN
+    INSERT INTO compra VALUES (DEFAULT, PARAMETRO_1, PARAMETRO_2, DEFAULT);
+    RETURN 'Os valores foram inseridos com sucesso na tabela COMPRA';
+  ELSE
+    RAISE EXCEPTION 'Ops, nenhuma tabela foi encontrada, revise os parâmetros passados..';
+  END IF;
+END;
+$$
+LANGUAGE PLPGSQL;
+
+CREATE FUNCTION ADICIONA_VALORES(INICIAL_TABLE CHAR(3), PARAMETRO_1 INT,
+                                 PARAMETRO_2 INT, PARAMETRO_3 INT, PARAMETRO_4 REAL)
+RETURNS TEXT AS $$
+BEGIN
+  IF(INICIAL_TABLE ILIKE 'COT') THEN
+    INSERT INTO cotacao_atual VALUES (DEFAULT, PARAMETRO_1, PARAMETRO_2, PARAMETRO_3, PARAMETRO_4);
+    RETURN 'Os valores foram inseridos com sucesso na tabela COTACAO_ATUAL';
+  ELSE
+    RAISE EXCEPTION 'Ops, nenhuma tabela foi encontrada, revise os parâmetros passados..';
+  END IF;
+END;
+$$
+LANGUAGE PLPGSQL;
+
