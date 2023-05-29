@@ -13,8 +13,18 @@ CREATE TABLE PEDIDO (
   MESA_ID INT,
   ATENDENTE_ID INT,
   DATA_HORA TIMESTAMP DEFAULT NOW(),
+  STATUS CHAR(1), --A - ABERTO, F - FECHADO--
   FOREIGN KEY (MESA_ID) REFERENCES MESA(MESA_ID),
   FOREIGN KEY (ATENDENTE_ID) REFERENCES ATENDENTE(ATENDENTE_ID)
+);
+
+CREATE TABLE ITEM_PEDIDO (
+  ITEM_PEDIDO_ID SERIAL PRIMARY KEY,
+  PEDIDO_ID INT,
+  PRODUTO_ID INT,
+  QUANTIDADE INT,
+  FOREIGN KEY (PEDIDO_ID) REFERENCES PEDIDO(PEDIDO_ID),
+  FOREIGN KEY (PRODUTO_ID) REFERENCES PRODUTO(PRODUTO_ID)
 );
 
 CREATE TABLE CATEGORIA (
@@ -76,15 +86,15 @@ CREATE TABLE COTACAO_ATUAL (
 
 
 CREATE FUNCTION ADICIONA_VALORES(INICIAL_TABLE CHAR(3),PARAMETRO_1 INT)
-RETURNS TEXT as $$
+RETURNS VOID as $$
 BEGIN
 
 IF(INICIAL_TABLE ilike 'ATE') then
   insert into atendente values(DEFAULT,PARAMETRO_1);
-  return 'Os valores foram inseridos com sucesso na tabela ATENDENTE';
+  RAISE NOTICE 'Os valores foram inseridos com sucesso na tabela ATENDENTE';
 elsif (INICIAL_TABLE ilike 'CAT') then
   insert into categoria values(DEFAULT, PARAMETRO_1);
-  return 'Os valores foram inseridos com sucesso na tabela CATEGORIA';
+  RAISE NOTICE 'Os valores foram inseridos com sucesso na tabela CATEGORIA';
 else
  raise exception 'Ops, nenhuma tabela foi encontrada, revise os parametros passados..';
 end if;
@@ -93,12 +103,12 @@ $$
 LANGUAGE PLPGSQL;
 
 CREATE FUNCTION ADICIONA_VALORES(INICIAL_TABLE CHAR(3),COD INT,PARAMETRO_1 varchar)
-RETURNS TEXT as $$
+RETURNS VOID as $$
 BEGIN
 
 IF(INICIAL_TABLE ilike 'MES') then
   insert into atendente values(cod,PARAMETRO_1);
-  return 'Os valores foram inseridos com sucesso na tabela MESA';
+  RAISE NOTICE 'Os valores foram inseridos com sucesso na tabela MESA';
 else
  raise exception 'Ops, nenhuma tabela foi encontrada, revise os parametros passados..';
 end if;
@@ -109,12 +119,12 @@ LANGUAGE PLPGSQL;
 CREATE FUNCTION ADICIONA_VALORES(INICIAL_TABLE CHAR(3),PARAMETRO_1 VARCHAR(100),
 								 PARAMETRO_2 varchar(100), PARAMETRO_3 char(8), 
 								 PARAMETRO_4 varchar(4))
-RETURNS TEXT as $$
+RETURNS VOID as $$
 BEGIN
 
 IF(INICIAL_TABLE ilike 'FOR') then
   insert into FORNECEDOR values(DEFAULT,PARAMETRO_1,  PARAMETRO_2, PARAMETRO_3, PARAMETRO_4);
-  return 'Os valores foram inseridos com sucesso na tabela FORNECEDOR';
+  RAISE NOTICE 'Os valores foram inseridos com sucesso na tabela FORNECEDOR';
 else
  raise exception 'Ops, nenhuma tabela foi encontrada, revise os parametros passados..';
 end if;
@@ -125,11 +135,11 @@ LANGUAGE PLPGSQL;
 CREATE FUNCTION ADICIONA_VALORES(INICIAL_TABLE CHAR(3), PARAMETRO_1 VARCHAR(50),
                                  PARAMETRO_2 VARCHAR(200), PARAMETRO_3 INT,
                                  PARAMETRO_4 REAL, PARAMETRO_5 INT, PARAMETRO_6 CHAR(1))
-RETURNS TEXT AS $$
+RETURNS VOID AS $$
 BEGIN
   IF(INICIAL_TABLE ILIKE 'PRO') THEN
     INSERT INTO produto VALUES (DEFAULT, PARAMETRO_1, PARAMETRO_2, PARAMETRO_3, PARAMETRO_4, PARAMETRO_5, PARAMETRO_6);
-    RETURN 'Os valores foram inseridos com sucesso na tabela PRODUTO';
+    RAISE NOTICE 'Os valores foram inseridos com sucesso na tabela PRODUTO';
   ELSE
     RAISE EXCEPTION 'Ops, nenhuma tabela foi encontrada, revise os parâmetros passados..';
   END IF;
@@ -139,11 +149,11 @@ LANGUAGE PLPGSQL;
 
 CREATE FUNCTION ADICIONA_VALORES(INICIAL_TABLE CHAR(3), PARAMETRO_1 VARCHAR(50),
                                  PARAMETRO_2 INT)
-RETURNS TEXT AS $$
+RETURNS VOID AS $$
 BEGIN
   IF(INICIAL_TABLE ILIKE 'ING') THEN
     INSERT INTO ingrediente VALUES (DEFAULT, PARAMETRO_1, PARAMETRO_2);
-    RETURN 'Os valores foram inseridos com sucesso na tabela INGREDIENTE';
+    RAISE NOTICE 'Os valores foram inseridos com sucesso na tabela INGREDIENTE';
   ELSE
     RAISE EXCEPTION 'Ops, nenhuma tabela foi encontrada, revise os parâmetros passados..';
   END IF;
@@ -153,11 +163,11 @@ LANGUAGE PLPGSQL;
 
 CREATE FUNCTION ADICIONA_VALORES(INICIAL_TABLE CHAR(3), PARAMETRO_1 INT,
                                  PARAMETRO_2 INT, PARAMETRO_3 INT)
-RETURNS TEXT AS $$
+RETURNS VOID AS $$
 BEGIN
   IF(INICIAL_TABLE ILIKE 'ITE') THEN
     INSERT INTO item_compra VALUES (DEFAULT, PARAMETRO_1, PARAMETRO_2, PARAMETRO_3);
-    RETURN 'Os valores foram inseridos com sucesso na tabela ITEM_COMPRA';
+    RAISE NOTICE 'Os valores foram inseridos com sucesso na tabela ITEM_COMPRA';
   ELSE
     RAISE EXCEPTION 'Ops, nenhuma tabela foi encontrada, revise os parâmetros passados..';
   END IF;
@@ -167,11 +177,11 @@ LANGUAGE PLPGSQL;
 
 CREATE FUNCTION ADICIONA_VALORES(INICIAL_TABLE CHAR(3), PARAMETRO_1 INT,
                                  PARAMETRO_2 REAL)
-RETURNS TEXT AS $$
+RETURNS VOID AS $$
 BEGIN
   IF(INICIAL_TABLE ILIKE 'COM') THEN
     INSERT INTO compra VALUES (DEFAULT, PARAMETRO_1, PARAMETRO_2, DEFAULT);
-    RETURN 'Os valores foram inseridos com sucesso na tabela COMPRA';
+    RAISE NOTICE 'Os valores foram inseridos com sucesso na tabela COMPRA';
   ELSE
     RAISE EXCEPTION 'Ops, nenhuma tabela foi encontrada, revise os parâmetros passados..';
   END IF;
@@ -181,11 +191,11 @@ LANGUAGE PLPGSQL;
 
 CREATE FUNCTION ADICIONA_VALORES(INICIAL_TABLE CHAR(3), PARAMETRO_1 INT,
                                  PARAMETRO_2 INT, PARAMETRO_3 INT, PARAMETRO_4 REAL)
-RETURNS TEXT AS $$
+RETURNS VOID AS $$
 BEGIN
   IF(INICIAL_TABLE ILIKE 'COT') THEN
     INSERT INTO cotacao_atual VALUES (DEFAULT, PARAMETRO_1, PARAMETRO_2, PARAMETRO_3, PARAMETRO_4);
-    RETURN 'Os valores foram inseridos com sucesso na tabela COTACAO_ATUAL';
+    RAISE NOTICE 'Os valores foram inseridos com sucesso na tabela COTACAO_ATUAL';
   ELSE
     RAISE EXCEPTION 'Ops, nenhuma tabela foi encontrada, revise os parâmetros passados..';
   END IF;
@@ -193,3 +203,51 @@ END;
 $$
 LANGUAGE PLPGSQL;
 
+
+CREATE OR REPLACE FUNCTION REALIZA_PEDIDO(MESA_ID INT, PRODUTO_ID INT, QUANTIDADE INT,ATENDENTE_ID INT, PEDIDO_ID INT DEFAULT NULL)
+RETURNS VOID AS $$
+DECLARE
+  PEDIDO_ID INT;
+BEGIN
+
+    IF(PEDIDO_ID IS NULL) THEN
+        INSERT INTO pedido VALUES (DEFAULT, MESA_ID, DEFAULT, DEFAULT);
+        SELECT MAX(PEDIDO_ID) INTO PEDIDO_ID FROM pedido;
+    END IF;
+
+    IF NOT EXISTS (SELECT * FROM ITEM_PEDIDO WHERE PEDIDO_ID = PEDIDO_ID AND PRODUTO_ID = PRODUTO_ID) THEN
+        INSERT INTO item_pedido VALUES (DEFAULT, PEDIDO_ID, PRODUTO_ID, QUANTIDADE);
+    ELSE
+        UPDATE item_pedido SET QUANTIDADE = QUANTIDADE + QUANTIDADE WHERE PEDIDO_ID = PEDIDO_ID AND PRODUTO_ID = PRODUTO_ID;
+    END IF;
+    
+    RAISE NOTICE 'Pedido realizado com sucesso!';
+    END;
+$$
+LANGUAGE PLPGSQL;
+
+
+CREATE OR REPLACE TRIGGER TRG_CONFERE_PEDIDO
+BEFORE INSERT ON ITEM_PEDIDO
+FOR EACH ROW
+EXECUTE PROCEDURE CONFERE_PEDIDO();
+
+CREATE OR REPLACE FUNCTION CONFERE_PEDIDO()
+RETURNS TRIGGER AS $$
+DECLARE
+  QUANTIDADE_ESTOQUE INT;
+  QUANTIDADE_PEDIDO INT;
+BEGIN
+
+    SELECT QUANTIDADE INTO QUANTIDADE_ESTOQUE FROM PRODUTO WHERE PRODUTO_ID = NEW.PRODUTO_ID;
+    SELECT QUANTIDADE INTO QUANTIDADE_PEDIDO FROM ITEM_PEDIDO WHERE PEDIDO_ID = NEW.PEDIDO_ID AND PRODUTO_ID = NEW.PRODUTO_ID;
+    
+    IF(QUANTIDADE_PEDIDO > QUANTIDADE_ESTOQUE) THEN
+        RAISE EXCEPTION 'Quantidade de produto em estoque insuficiente!';
+        RETURN NULL;
+    END IF;
+    
+    RETURN NEW;
+    END;
+$$
+LANGUAGE PLPGSQL;
